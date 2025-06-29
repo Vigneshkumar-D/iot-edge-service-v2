@@ -9,8 +9,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class MenuDTO {
+    private UUID uuid;
+    private Integer id;
     private String menuName;
     private Integer parentId;
     private UUID pageId;

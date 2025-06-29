@@ -4,10 +4,7 @@ import com.iot_edge.common.Auditable;
 import com.iot_edge.managementconsole.constants.AssetCategory;
 import com.iot_edge.managementconsole.model.system.Parameters;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -22,6 +19,7 @@ import java.util.UUID;
 @Table(name = "assets")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Asset extends Auditable<String> implements Serializable {
 
     @Id
@@ -61,6 +59,7 @@ public class Asset extends Auditable<String> implements Serializable {
 //    @JsonIgnoreProperties(ignoreUnknown = true)
     private Firm firm;
 
+    @Builder.Default
     @JdbcTypeCode(SqlTypes.JSON)
     private List<Parameters> parameters =  new ArrayList<>();
 

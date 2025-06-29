@@ -2,7 +2,7 @@ package com.iot_edge.shift.service;
 
 import com.iot_edge.managementconsole.model.user.ResponseModel;
 import com.iot_edge.managementconsole.utils.ExceptionHandler.ExceptionHandlerUtil;
-import com.iot_edge.shift.dto.ShiftDto;
+import com.iot_edge.shift.dto.ShiftDTO;
 import com.iot_edge.shift.entity.Shift;
 import com.iot_edge.shift.repository.ShiftRepository;
 import org.modelmapper.ModelMapper;
@@ -33,7 +33,7 @@ public class ShiftService {
         }
     }
 
-    public ResponseEntity<ResponseModel<?>> add(ShiftDto shiftDto) {
+    public ResponseEntity<ResponseModel<?>> add(ShiftDTO shiftDto) {
         try{
             Shift shift = modelMapper.map(shiftDto, Shift.class);
             return ResponseEntity.ok(new ResponseModel<>(true, "Success", shiftRepository.save(shift)));
@@ -43,7 +43,7 @@ public class ShiftService {
         }
     }
 
-    public ResponseEntity<ResponseModel<?>> update(Long shiftId, ShiftDto shiftDto) {
+    public ResponseEntity<ResponseModel<?>> update(Long shiftId, ShiftDTO shiftDto) {
         try{
             Shift shift = shiftRepository.findById(shiftId).orElse(null);
             if (shift == null) {

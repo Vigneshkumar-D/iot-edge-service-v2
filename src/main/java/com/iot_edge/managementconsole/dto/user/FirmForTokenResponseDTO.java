@@ -1,16 +1,15 @@
 package com.iot_edge.managementconsole.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class FirmForTokenResponseDTO {
     private UUID uuid;
     private String logoUrl;

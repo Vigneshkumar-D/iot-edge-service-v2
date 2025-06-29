@@ -18,6 +18,10 @@ public class ResponseModel<T> {
         this.data = data;
     }
 
+    public static ResponseModel<?> error(String s) {
+        return null;
+    }
+
     public String getMessage() {
         return message;
     }

@@ -2,7 +2,7 @@ package com.iot_edge.shift.service;
 
 import com.iot_edge.managementconsole.model.user.ResponseModel;
 import com.iot_edge.managementconsole.utils.ExceptionHandler.ExceptionHandlerUtil;
-import com.iot_edge.shift.dto.ShiftAllocationDto;
+import com.iot_edge.shift.dto.ShiftAllocationDTO;
 import com.iot_edge.shift.entity.ShiftAllocation;
 import com.iot_edge.shift.repository.ShiftAllocationRepository;
 import org.modelmapper.ModelMapper;
@@ -31,7 +31,7 @@ public class ShiftAllocationService {
         }
     }
 
-    public ResponseEntity<ResponseModel<?>> add(ShiftAllocationDto shiftAllocationDto) {
+    public ResponseEntity<ResponseModel<?>> add(ShiftAllocationDTO shiftAllocationDto) {
         try{
             ShiftAllocation shiftAllocation = modelMapper.map(shiftAllocationDto, ShiftAllocation.class);
             return ResponseEntity.ok(new ResponseModel<>(true, "Success", shiftAllocationRepository.save(shiftAllocation)));
@@ -41,7 +41,7 @@ public class ShiftAllocationService {
         }
     }
 
-    public ResponseEntity<ResponseModel<?>> update(Long shiftAllocationId, ShiftAllocationDto shiftAllocationDto) {
+    public ResponseEntity<ResponseModel<?>> update(Long shiftAllocationId, ShiftAllocationDTO shiftAllocationDto) {
         try{
             ShiftAllocation shiftAllocation = shiftAllocationRepository.findById(shiftAllocationId).orElse(null);
             if (shiftAllocation == null) {
@@ -69,6 +69,5 @@ public class ShiftAllocationService {
                     .body(new ResponseModel<>(false, "Error deleting shift Allocation: " + e.getMessage()));
         }
     }
-
 
 }

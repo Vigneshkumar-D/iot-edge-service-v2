@@ -87,7 +87,7 @@
 //            @Qualifier("primaryDataSource") DataSource dataSource) {
 //        return builder
 //                .dataSource(dataSource)
-//                .packages("com.baseel.lms.five_million")
+//                .packages("com.iot_edge")
 //                .persistenceUnit("primary")
 //                .build();
 //    }
@@ -154,7 +154,7 @@
 //    }
 //
 //    @EnableJpaRepositories(
-//            basePackages = "com.baseel.lms.five_million.repository",
+//            basePackages = "com.iot-edge",
 //            entityManagerFactoryRef = "entityManagerFactory",
 //            transactionManagerRef = "primaryTransactionManager"
 //    )

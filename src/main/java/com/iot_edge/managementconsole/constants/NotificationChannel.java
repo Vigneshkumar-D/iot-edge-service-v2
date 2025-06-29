@@ -1,5 +1,5 @@
 package com.iot_edge.managementconsole.constants;
 
 public enum NotificationChannel {
-    EMAIL_SENDGRID
+    SMTP, EMAIL_SENDGRID
 }

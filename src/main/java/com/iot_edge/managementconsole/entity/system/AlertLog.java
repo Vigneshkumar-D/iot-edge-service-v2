@@ -1,13 +1,11 @@
 package com.iot_edge.managementconsole.entity.system;
 
 
+
 import com.iot_edge.common.Auditable;
 import com.iot_edge.managementconsole.model.system.Parameters;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -17,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Table(name = "alert_log")
 public class AlertLog extends Auditable<String> implements Serializable {
     @Id

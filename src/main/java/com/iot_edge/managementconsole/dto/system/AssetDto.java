@@ -8,13 +8,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssetDto {
+public class AssetDTO {
+    private UUID uuid;
+    private Integer id;
     private String assetName;
     private String scriptCode;
     private AssetCategory assetCategory;
@@ -26,4 +30,6 @@ public class AssetDto {
     private String pubTopicName;
     private boolean isActive;
     private List<Parameters> parameters;
+    private Date createdDate;
+    private String createdBy;
 }

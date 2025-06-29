@@ -1,6 +1,6 @@
 package com.iot_edge.managementconsole.controller.system;
 
-import com.iot_edge.managementconsole.dto.system.MqttConfigRequest;
+import com.iot_edge.managementconsole.dto.system.MqttConfigDTO;
 import com.iot_edge.managementconsole.service.system.MqttService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mqtt")
 public class MqttController {
 
-    @Autowired
-    private MqttService mqttService;
+
+    private final MqttService mqttService;
+
+    public MqttController(MqttService mqttService) {
+        this.mqttService = mqttService;
+    }
 
     @PostMapping("/connect")
-    public ResponseEntity<String> connectToMqtt(@RequestBody MqttConfigRequest request) {
+    public ResponseEntity<String> connectToMqtt(@RequestBody MqttConfigDTO request) {
         String response = mqttService.connectToMqtt(request);
         return ResponseEntity.ok(response);
     }

@@ -6,17 +6,24 @@ import com.iot_edge.managementconsole.entity.system.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-//@Server
-public class FirmDto {
+@Setter
+public class FirmDTO {
 
+    private Integer id;
+    private UUID uuid;
     private String name;
-
-    private Firm parent;
-
-    private Location location;
+    private String contactNo;
+    private String email;
+    private String website;
+    private String logoUrl;
+    private FirmDTO parent;
+    private LocationDTO location;
 
 }

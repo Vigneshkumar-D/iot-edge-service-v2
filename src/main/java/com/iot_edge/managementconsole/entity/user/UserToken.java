@@ -41,12 +41,8 @@ public class UserToken extends Auditable<String> implements Serializable{
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid",insertable = false,updatable = false)
     private User user;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    private Instant createdOn;
-
-    @Column(columnDefinition = "boolean default true")
-    private boolean active;
+    @Builder.Default
+    private boolean active = true;
 
     @PrePersist
     protected void onCreate() {

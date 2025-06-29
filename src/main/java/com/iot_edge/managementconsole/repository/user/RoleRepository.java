@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role,Integer>, JpaSpecificationExecutor<Role> {
     Optional<Role> findByRoleName(String roleName);
+
+    Optional<Role> findByUuid(UUID uuid);
 }

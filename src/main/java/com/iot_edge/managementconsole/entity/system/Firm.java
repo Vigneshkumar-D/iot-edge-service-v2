@@ -2,10 +2,7 @@ package com.iot_edge.managementconsole.entity.system;
 
 import com.iot_edge.common.Auditable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "firm")
 public class Firm extends Auditable<String> implements Serializable {
     @Id

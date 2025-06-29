@@ -120,6 +120,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -157,14 +158,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 log.info("Access Token has expired... Trying to refresh token...");
                 if (authenticationService.isValidRefreshToken(refreshToken)) {
                     String userUuid = authenticationService.getSubjectFromRefreshToken(refreshToken);
-                    User user = userRepository.findByUuid(UUID.fromString(userUuid));
+                    Optional<User> user = userRepository.findByUuid(UUID.fromString(userUuid));
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userUuid, null, List.of());
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-                    Map<String, Object> jwtResponse = authenticationService.generateAuthenticationToken(user.getEmail());
-                    Map<String, Object> jwtResponseForRefreshToken = authenticationService.generateRefreshToken(user.getEmail());
+                    Map<String, Object> jwtResponse = authenticationService.generateAuthenticationToken(user.get().getEmail());
+                    Map<String, Object> jwtResponseForRefreshToken = authenticationService.generateRefreshToken(user.get().getEmail());
                     String refreshedAccessToken = jwtResponse.get("token").toString();
                     String refreshedRefreshToken = jwtResponseForRefreshToken.get("refreshToken").toString();
                     authenticationService.addCookie(refreshedAccessToken, refreshedRefreshToken, response);

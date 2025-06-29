@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iot_edge.energy.dto.EnergyConsumptionDto;
 import com.iot_edge.energy.service.EnergyConsumptionService;
 import com.iot_edge.managementconsole.constants.AssetCategory;
-import com.iot_edge.managementconsole.dto.system.MqttConfigRequest;
+import com.iot_edge.managementconsole.dto.system.MqttConfigDTO;
 import com.iot_edge.managementconsole.entity.system.Asset;
 import com.iot_edge.managementconsole.repository.system.AssetRepository;
 import org.eclipse.paho.client.mqttv3.*;
@@ -46,7 +46,7 @@ public class MqttService {
     }
 
 
-    public String connectToMqtt(MqttConfigRequest request) {
+    public String connectToMqtt(MqttConfigDTO request) {
         if (request.getBrokerUrl() == null || request.getBrokerUrl().isEmpty()) {
             return "Broker URL is required!";
         }
@@ -128,7 +128,7 @@ public class MqttService {
         Asset asset = assetRepository.findBySubTopicName(topic);
 
         if (asset != null) {
-            if(asset.getAssetCategory().equals(AssetCategory.Energy)){
+            if(asset.getAssetCategory().equals(AssetCategory.ENERGY)){
                 JsonNode jsonNode = objectMapper.readTree(payload);
 
                 Set<String> allowedKeys = Set.of("meterReading", "current", "voltage", "frequency", "powerFactor");

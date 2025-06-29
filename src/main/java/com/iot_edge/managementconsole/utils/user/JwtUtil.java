@@ -91,7 +91,7 @@ public class JwtUtil {
         Jwt decodedToken = jwtDecoder.decode(token);
         String userUUID = decodedToken.getClaims().get("sub").toString();
 
-        return userRepository.findByUuid(UUID.fromString(userUUID));
+        return userRepository.findByUuid(UUID.fromString(userUUID)).get();
     }
 
     public AuthenticationDetails getAuthenticationDetails() {

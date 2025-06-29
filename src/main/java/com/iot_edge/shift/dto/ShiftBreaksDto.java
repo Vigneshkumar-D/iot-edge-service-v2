@@ -2,16 +2,17 @@ package com.iot_edge.shift.dto;
 
 
 import com.iot_edge.shift.entity.Shift;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShiftBreaksDto {
+@Builder
+@Setter
+@Getter
+public class ShiftBreaksDTO {
 
     private Long id;
 

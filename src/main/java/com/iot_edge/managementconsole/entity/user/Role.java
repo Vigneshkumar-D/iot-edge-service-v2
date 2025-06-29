@@ -36,14 +36,6 @@ public class Role extends Auditable<String> implements Serializable {
     @Column(columnDefinition = "boolean default true")
     private boolean active;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    private Instant createdOn;
-
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    private Instant updatedOn;
-
     @ManyToOne
     @JoinColumn(name = "firm_uuid", referencedColumnName = "uuid")
     private Firm firm;

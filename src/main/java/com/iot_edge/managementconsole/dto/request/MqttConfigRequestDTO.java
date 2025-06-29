@@ -1,17 +1,18 @@
-package com.iot_edge.managementconsole.dto.system;
+package com.iot_edge.managementconsole.dto.request;
 
-import com.iot_edge.managementconsole.entity.system.Asset;
+
+import com.iot_edge.managementconsole.dto.system.AssetDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MqttConfigRequest {
-    private Asset asset;
+@Getter
+@Setter
+public class MqttConfigRequestDTO {
+    private AssetDTO asset;
     private String brokerUrl;
     private String clientId;
     private String username;

@@ -135,7 +135,7 @@ public class OTPService {
 
         // SENDING OTP VIA EMAIL THROUGH SENDGRID
         Notification emailNotification = Notification.builder()
-                .channel(NotificationChannel.EMAIL_SENDGRID)
+                .channel(NotificationChannel.SMTP)
                 .type(NotificationType.OTP)
                 .scheduledOn(LocalDateTime.now())
                 .status(NotificationStatus.PENDING)

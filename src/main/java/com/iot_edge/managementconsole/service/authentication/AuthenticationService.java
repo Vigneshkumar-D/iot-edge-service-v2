@@ -3,11 +3,15 @@ package com.iot_edge.managementconsole.service.authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iot_edge.common.exceptions.*;
 import com.iot_edge.managementconsole.dto.request.AuthenticationRequestDTO;
+import com.iot_edge.managementconsole.dto.request.ChangePasswordRequestDTO;
+import com.iot_edge.managementconsole.dto.request.ResetPasswordRequestDTO;
 import com.iot_edge.managementconsole.dto.user.FirmForTokenResponseDTO;
 import com.iot_edge.managementconsole.entity.system.Firm;
 import com.iot_edge.managementconsole.entity.user.User;
 import com.iot_edge.managementconsole.repository.user.RoleRepository;
 import com.iot_edge.managementconsole.repository.user.UserRepository;
+import com.iot_edge.managementconsole.utils.annotations.AuthenticatedUserDetails;
+import com.iot_edge.managementconsole.utils.user.AuthenticationDetails;
 import com.iot_edge.managementconsole.utils.user.JwtUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
@@ -28,6 +32,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -391,12 +396,12 @@ public class AuthenticationService {
         } else {
             if (isValidRefreshToken(refreshToken)) {
                 String userUuid = getSubjectFromRefreshToken(refreshToken);
-                User user = userRepository.findByUuid(UUID.fromString(userUuid));
+                Optional<User> user = userRepository.findByUuid(UUID.fromString(userUuid));
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userUuid, null, List.of());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                Map<String, Object> jwtResponse = generateAuthenticationToken(user.getEmail());
-                Map<String, Object> jwtResponseForRefreshToken = generateRefreshToken(user.getEmail());
+                Map<String, Object> jwtResponse = generateAuthenticationToken(user.get().getEmail());
+                Map<String, Object> jwtResponseForRefreshToken = generateRefreshToken(user.get().getEmail());
                 String refreshedAccessToken = jwtResponse.get("token").toString();
                 String refreshedRefreshToken = jwtResponseForRefreshToken.get("refreshToken").toString();
                 addCookie(refreshedAccessToken, refreshedRefreshToken, response);
@@ -423,5 +428,7 @@ public class AuthenticationService {
 //        }
 //        return null;
 //    }
+
+
 }
 

@@ -1,7 +1,7 @@
 package com.iot_edge.shift.controller;
 
 import com.iot_edge.managementconsole.model.user.ResponseModel;
-import com.iot_edge.shift.dto.ShiftAllocationDto;
+import com.iot_edge.shift.dto.ShiftAllocationDTO;
 import com.iot_edge.shift.service.ShiftAllocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +20,12 @@ public class ShiftAllocationController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseModel<?>> createRole(@RequestBody ShiftAllocationDto shiftAllocationDto) {
+    public ResponseEntity<ResponseModel<?>> createRole(@RequestBody ShiftAllocationDTO shiftAllocationDto) {
         return shiftAllocationService.add(shiftAllocationDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseModel<?>> updateRole(@PathVariable(name = "id") Long shiftAllocationId, @RequestBody ShiftAllocationDto shiftAllocationDto) {
+    public ResponseEntity<ResponseModel<?>> updateRole(@PathVariable(name = "id") Long shiftAllocationId, @RequestBody ShiftAllocationDTO shiftAllocationDto) {
         return shiftAllocationService.update(shiftAllocationId, shiftAllocationDto);
     }
 

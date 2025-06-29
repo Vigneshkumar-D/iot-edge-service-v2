@@ -1,37 +1,94 @@
 package com.iot_edge.managementconsole.controller.system;
 
-import com.iot_edge.managementconsole.dto.system.FirmDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iot_edge.common.exceptions.BadRequestException;
+import com.iot_edge.common.exceptions.ExpectationFailedException;
+import com.iot_edge.managementconsole.dto.request.FirmRequestDTO;
+import com.iot_edge.managementconsole.dto.system.FirmDTO;
 import com.iot_edge.managementconsole.model.user.ResponseModel;
 import com.iot_edge.managementconsole.service.system.FirmService;
+import com.iot_edge.managementconsole.utils.annotations.AuthenticatedUserDetails;
+import com.iot_edge.managementconsole.utils.user.AuthenticationDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/firm")
 public class FirmController {
 
-    @Autowired
-    private FirmService firmService;
+    private final FirmService firmService;
+    private final ObjectMapper objectMapper;
+
+    public FirmController(FirmService firmService, ObjectMapper objectMapper) {
+        this.firmService = firmService;
+        this.objectMapper = objectMapper;
+    }
+
+    @GetMapping("get-all-firms-paged")
+    public ResponseEntity<String> getAllFirmsPaged(
+            @RequestParam(required = false, defaultValue = "") String search,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "false") boolean desc,
+            @RequestParam(required = false, defaultValue = "createdDate") List<String> sort,
+            @AuthenticatedUserDetails AuthenticationDetails authenticationDetails) {
+        try {
+            Sort _sort;
+            Sort.Direction _direction = desc ? Sort.Direction.DESC : Sort.Direction.ASC;
+            Pageable pageable;
+            if (sort.contains("createdDate")) {
+                _sort = Sort.by(Sort.Direction.DESC, "createdDate");
+                sort.add("DESC");
+                pageable = PageRequest.of(page, size, _sort);
+            } else {
+                _sort = Sort.by(_direction, sort.getFirst());
+                sort.add(_direction.isAscending() ? "ASC" : "DESC");
+                pageable = PageRequest.of(page, size, _sort);
+            }
+            return ResponseEntity.ok(objectMapper.writeValueAsString(firmService.getAllFirmsForLoggedInUser(search, pageable, sort, authenticationDetails)));
+        } catch (BadRequestException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
     @PostMapping
-    public ResponseEntity<ResponseModel<?>> add(@RequestBody FirmDto firmDto) {
-        return firmService.add(firmDto);
+    public ResponseEntity<ResponseModel<?>> add(@RequestBody FirmRequestDTO firmRequestDTO) {
+        try {
+            return firmService.add(firmRequestDTO);
+        } catch (Exception e) {
+            ResponseModel<?> response = new ResponseModel<>(false, "Something went wrong: " + e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
-    @GetMapping
-    public ResponseEntity<ResponseModel<?>> list() {
-        return firmService.list();
+    @PutMapping("/{firmUuid}")
+    public ResponseEntity<ResponseModel<?>> update(@PathVariable("firmUuid") String firmUuid, @RequestBody FirmDTO firmDto){
+        try {
+            return firmService.update(firmUuid, firmDto);
+        } catch (Exception e) {
+            ResponseModel<?> response = new ResponseModel<>(false, "Something went wrong: " + e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
-    @PutMapping("/{firmId}")
-    public ResponseEntity<ResponseModel<?>> update(@PathVariable("firmId") Integer firmId, @RequestBody FirmDto firmDto){
-        return firmService.update(firmId, firmDto);
+    @DeleteMapping("/{firmUuid}")
+    public ResponseEntity<ResponseModel<?>> delete(@PathVariable String firmUuid) {
+        try {
+            return firmService.delete(firmUuid);
+        } catch (Exception e) {
+            ResponseModel<?> response = new ResponseModel<>(false, "Something went wrong: " + e.getMessage(), null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
-    @DeleteMapping("/{firmId}")
-    public ResponseEntity<ResponseModel<?>> delete(@PathVariable Integer firmId) {
-        return firmService.delete(firmId);
-    }
 
 }

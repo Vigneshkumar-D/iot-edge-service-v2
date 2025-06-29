@@ -46,12 +46,14 @@ package com.iot_edge.managementconsole.controller.authentication;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iot_edge.common.exceptions.NotFoundException;
-import com.iot_edge.common.exceptions.TooManyRequestsException;
-import com.iot_edge.common.exceptions.UnauthorizedException;
+import com.iot_edge.common.exceptions.*;
 import com.iot_edge.managementconsole.dto.request.AuthenticationRequestDTO;
+import com.iot_edge.managementconsole.dto.request.ChangePasswordRequestDTO;
+import com.iot_edge.managementconsole.dto.request.ResetPasswordRequestDTO;
 import com.iot_edge.managementconsole.dto.user.PingSuccessResponseDTO;
 import com.iot_edge.managementconsole.service.authentication.AuthenticationService;
+import com.iot_edge.managementconsole.utils.annotations.AuthenticatedUserDetails;
+import com.iot_edge.managementconsole.utils.user.AuthenticationDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -120,4 +122,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+
 }

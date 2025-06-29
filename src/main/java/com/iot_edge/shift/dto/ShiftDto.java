@@ -2,9 +2,7 @@ package com.iot_edge.shift.dto;
 
 import com.iot_edge.shift.constants.ShiftStatus;
 import com.iot_edge.shift.entity.ShiftBreaks;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,7 +11,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShiftDto {
+@Builder
+@Setter
+@Getter
+public class ShiftDTO {
     private Long id;
 
     private String shiftName;
@@ -26,6 +27,7 @@ public class ShiftDto {
 
     private ShiftStatus status;
 
+    @Builder.Default
     private List<ShiftBreaks> breaks = new ArrayList<>();
 
 }

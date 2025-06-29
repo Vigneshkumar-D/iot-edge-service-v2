@@ -14,7 +14,6 @@ public class MqttMessageListener {
 
     private static final ConcurrentHashMap<String, Boolean> assetStatusMap = new ConcurrentHashMap<>();
 
-
     private final SimpMessagingTemplate messagingTemplate;
 
     public MqttMessageListener(SimpMessagingTemplate messagingTemplate) {

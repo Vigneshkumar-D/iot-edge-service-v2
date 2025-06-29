@@ -13,8 +13,12 @@ import java.util.Map;
 @RequestMapping("/script")
 public class ScriptController {
 
-    @Autowired
-    private ScriptService service;
+
+    private final ScriptService service;
+
+    public ScriptController(ScriptService service) {
+        this.service = service;
+    }
 
     @PostMapping("/execute")
     public Object executeScript(@RequestBody Map<String, Object> payload) {
